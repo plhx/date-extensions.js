@@ -81,6 +81,14 @@
     }
 
     /**
+     * @param {Date}
+     * @returns {Date}
+     */
+    Date.prototype.and = function (date) {
+        return this.isNaN() ? this : date
+    }
+
+    /**
      * @returns {Date}
      */
     Date.prototype.clone = function () {
@@ -127,6 +135,30 @@
      */
     Date.prototype.getDayOfYear = function () {
         return (this - new Date(this.getFullYear(), 0, 0)) / 86400000 | 0
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    Date.prototype.isNaN = function () {
+        return Number.isNaN(+this)
+    }
+
+    /**
+     * @type T
+     * @param {function(Date): T} ifValid
+     * @returns {Date}
+     */
+    Date.prototype.map = function (ifValid) {
+        return this.isNaN() ? this : ifValid(this)
+    }
+
+    /**
+     * @param {Date}
+     * @returns {Date}
+     */
+    Date.prototype.or = function (date) {
+        return this.isNaN() ? date : this
     }
 
     /**
@@ -197,6 +229,14 @@
             second: this.getSeconds(),
             millisecond: this.getMilliseconds()
         }
+    }
+
+    /**
+     * @param {Date}
+     * @returns {Date}
+     */
+    Date.prototype.xor = function (date) {
+        return this.isNaN() == date.isNaN() ? Date.nan() : this.or(date)
     }
 
     /**

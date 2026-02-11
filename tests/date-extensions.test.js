@@ -72,6 +72,11 @@
         assertEq(Date.of(2025, 1, 1).add({ timestamp: 86400000 }), Date.of(2025, 1, 2))
     })
 
+    test('Date::and()', () => {
+        assertEq(Date.of(2026, 1, 1).and(Date.of(2027, 1, 1)), Date.of(2027, 1, 1))
+        assertEq(Date.nan().and(Date.of(2027, 1, 1)), Date.nan())
+    })
+
     test('Date::diff()', () => {
         assertEq(Date.of(2025, 1, 5).diff(Date.of(2025, 1, 3)), 86400000 * 2)
         assertEq(Date.of(2025, 1, 1).diff(Date.of(2025, 2, 1)), -86400000 * 31)
@@ -159,6 +164,21 @@
         assertEq(Date.of(2026, 12, 31).getDayOfYear(), 365)
     })
 
+    test('Date::isNaN()', () => {
+        assertEq(Date.of(2026, 1, 1).isNaN(), false)
+        assertEq(Date.nan().isNaN(), true)
+    })
+
+    test('Date::map()', () => {
+        assertEq(Date.of(2026, 1, 1).map(_ => 42), 42)
+        assertEq(Date.nan().map(_ => 42), Date.nan())
+    })
+
+    test('Date::or()', () => {
+        assertEq(Date.of(2026, 1, 1).or(Date.of(2027, 1, 1)), Date.of(2026, 1, 1))
+        assertEq(Date.nan().or(Date.of(2027, 1, 1)), Date.of(2027, 1, 1))
+    })
+
     test('Date::replace()', () => {
         const date1 = new Date().replace({
             year: 2025,
@@ -202,6 +222,13 @@
         assertEq(minute, date.getMinutes())
         assertEq(second, date.getSeconds())
         assertEq(millisecond, date.getMilliseconds())
+    })
+
+    test('Date::xor()', () => {
+        assertEq(Date.of(2026, 1, 1).xor(Date.of(2027, 1, 1)), Date.nan())
+        assertEq(Date.of(2026, 1, 1).xor(Date.nan()), Date.of(2026, 1, 1))
+        assertEq(Date.nan().xor(Date.of(2027, 1, 1)), Date.of(2027, 1, 1))
+        assertEq(Date.nan().xor(Date.nan()), Date.nan())
     })
 
     test('Date::nan()', () => {
