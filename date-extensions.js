@@ -89,6 +89,15 @@
     }
 
     /**
+     * @param {Date} low
+     * @param {Date} high
+     * @returns {Date}
+     */
+    Date.prototype.clamp = function (low, high) {
+        return low.max(this).min(high)
+    }
+
+    /**
      * @returns {Date}
      */
     Date.prototype.clone = function () {
@@ -159,6 +168,28 @@
      */
     Date.prototype.map = function (ifValid) {
         return this.isNaN() ? this : ifValid(this)
+    }
+
+    /**
+     * @param {[Date]} dates
+     * @returns {Date}
+     */
+    Date.prototype.max = function (...dates) {
+        return dates.reduce((a, b) => {
+            const result = a.compare(b)
+            return Number.isNaN(result) ? Date.nan() : (result > 0 ? a : b)
+        }, this)
+    }
+
+    /**
+     * @param {[Date]} dates
+     * @returns {Date}
+     */
+    Date.prototype.min = function (...dates) {
+        return dates.reduce((a, b) => {
+            const result = a.compare(b)
+            return Number.isNaN(result) ? Date.nan() : (result < 0 ? a : b)
+        }, this)
     }
 
     /**

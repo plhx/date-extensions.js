@@ -82,6 +82,13 @@
         assertEq(Date.of(2025, 1, 1).diff(Date.of(2025, 2, 1)), -86400000 * 31)
     })
 
+    test('Date::clamp()', () => {
+        assertEq(Date.nan().clamp(Date.of(2027, 1, 1), Date.of(2029, 1, 1)), Date.nan())
+        assertEq(Date.of(2026, 1, 1).clamp(Date.of(2027, 1, 1), Date.of(2029, 1, 1)), Date.of(2027, 1, 1))
+        assertEq(Date.of(2028, 1, 1).clamp(Date.of(2027, 1, 1), Date.of(2029, 1, 1)), Date.of(2028, 1, 1))
+        assertEq(Date.of(2030, 1, 1).clamp(Date.of(2027, 1, 1), Date.of(2029, 1, 1)), Date.of(2029, 1, 1))
+    })
+
     test('Date::clone()', () => {
         const date1 = new Date()
         const date2 = Date.nan()
@@ -183,6 +190,18 @@
     test('Date::map()', () => {
         assertEq(Date.of(2026, 1, 1).map(_ => 42), 42)
         assertEq(Date.nan().map(_ => 42), Date.nan())
+    })
+
+    test('Date::max()', () => {
+        assertEq(Date.nan().max(Date.of(2027, 1, 1)), Date.nan())
+        assertEq(Date.of(2026, 1, 1).max(Date.of(2027, 1, 1)), Date.of(2027, 1, 1))
+        assertEq(Date.of(2026, 1, 1).max(Date.of(2027, 1, 1), Date.of(2028, 1, 1)), Date.of(2028, 1, 1))
+    })
+
+    test('Date::min()', () => {
+        assertEq(Date.nan().min(Date.of(2027, 1, 1)), Date.nan())
+        assertEq(Date.of(2026, 1, 1).min(Date.of(2027, 1, 1)), Date.of(2026, 1, 1))
+        assertEq(Date.of(2026, 1, 1).min(Date.of(2027, 1, 1), Date.of(2028, 1, 1)), Date.of(2026, 1, 1))
     })
 
     test('Date::or()', () => {
