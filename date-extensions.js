@@ -81,7 +81,7 @@
     }
 
     /**
-     * @param {Date}
+     * @param {Date} date
      * @returns {Date}
      */
     Date.prototype.and = function (date) {
@@ -140,6 +140,14 @@
     /**
      * @returns {boolean}
      */
+    Date.prototype.isLeapYear = function () {
+        const year = this.getFullYear()
+        return year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+    }
+
+    /**
+     * @returns {boolean}
+     */
     Date.prototype.isNaN = function () {
         return Number.isNaN(+this)
     }
@@ -154,7 +162,7 @@
     }
 
     /**
-     * @param {Date}
+     * @param {Date} date
      * @returns {Date}
      */
     Date.prototype.or = function (date) {
@@ -232,7 +240,7 @@
     }
 
     /**
-     * @param {Date}
+     * @param {Date} date
      * @returns {Date}
      */
     Date.prototype.xor = function (date) {

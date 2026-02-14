@@ -164,6 +164,17 @@
         assertEq(Date.of(2026, 12, 31).getDayOfYear(), 365)
     })
 
+    test('Date:isLeapYear()', () => {
+        assertEq(Date.of(1900, 1, 1).isLeapYear(), false)
+        assertEq(Date.of(2000, 1, 1).isLeapYear(), true)
+        assertEq(Date.of(2023, 1, 1).isLeapYear(), false)
+        assertEq(Date.of(2024, 1, 1).isLeapYear(), true)
+        assertEq(Date.of(2025, 1, 1).isLeapYear(), false)
+        assertEq(Date.of(2028, 1, 1).isLeapYear(), true)
+        assertEq(Date.of(2100, 1, 1).isLeapYear(), false)
+        assertEq(Date.of(2400, 1, 1).isLeapYear(), true)
+    })
+
     test('Date::isNaN()', () => {
         assertEq(Date.of(2026, 1, 1).isNaN(), false)
         assertEq(Date.nan().isNaN(), true)
