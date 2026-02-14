@@ -102,9 +102,9 @@
         assertEq(Date.of(2025, 1).compare(Date.of(2025, 1)) > 0, false)
         assertEq(Date.of(2026, 1).compare(Date.of(2025, 1)) > 0, true)
 
-        assertEq(Date.of(2024, 1).compare(Date.nan()), null)
-        assertEq(Date.of(2024, 1).compare(Date.nan()), null)
-        assertEq(Date.of(2024, 1).compare(Date.nan()), null)
+        assertEq(Date.of(2024, 1).compare(Date.nan()), NaN)
+        assertEq(Date.of(2024, 1).compare(Date.nan()), NaN)
+        assertEq(Date.of(2024, 1).compare(Date.nan()), NaN)
     })
 
     test('Date::daysInMonth()', () => {

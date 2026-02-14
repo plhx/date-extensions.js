@@ -101,9 +101,9 @@
      */
     Date.prototype.compare = function (other) {
         if (other instanceof Date) {
-            return isNaN(this) || isNaN(other) ? null : this - other
+            return this - other
         }
-        return false
+        return NaN
     }
 
     /**
