@@ -143,7 +143,7 @@
      * @returns {number}
      */
     Date.prototype.getDayOfYear = function () {
-        return (this - new Date(this.getFullYear(), 0, 0)) / 86400000 | 0
+        return this.isNaN() ? NaN : (this - new Date(this.getFullYear(), 0, 0)) / 86400000 | 0
     }
 
     /**

@@ -57,11 +57,13 @@
     }
 
     test('Date::absDiff()', () => {
+        assertEq(Date.nan().absDiff(Date.nan()), NaN)
         assertEq(Date.of(2025, 1, 5).absDiff(Date.of(2025, 1, 3)), 86400000 * 2)
         assertEq(Date.of(2025, 1, 1).absDiff(Date.of(2025, 2, 1)), 86400000 * 31)
     })
 
     test('Date::add()', () => {
+        assertEq(Date.nan().add({ years: 5 }), Date.nan())
         assertEq(Date.of(2025, 1, 1).add({ years: 5 }), Date.of(2030, 1, 1))
         assertEq(Date.of(2025, 1, 1).add({ months: 13 }), Date.of(2026, 2, 1))
         assertEq(Date.of(2025, 1, 1).add({ days: 40 }), Date.of(2025, 2, 10))
@@ -78,6 +80,8 @@
     })
 
     test('Date::diff()', () => {
+        assertEq(Date.nan().diff(Date.nan()), NaN)
+        assertEq(Date.of(2025, 1, 1).diff(Date.nan()), NaN)
         assertEq(Date.of(2025, 1, 5).diff(Date.of(2025, 1, 3)), 86400000 * 2)
         assertEq(Date.of(2025, 1, 1).diff(Date.of(2025, 2, 1)), -86400000 * 31)
     })
@@ -112,6 +116,8 @@
         assertEq(Date.of(2024, 1).compare(Date.nan()), NaN)
         assertEq(Date.of(2024, 1).compare(Date.nan()), NaN)
         assertEq(Date.of(2024, 1).compare(Date.nan()), NaN)
+
+        assertEq(Date.nan().compare(Date.nan()), NaN)
     })
 
     test('Date::daysInMonth()', () => {
@@ -167,11 +173,13 @@
     })
 
     test('Date::getDayOfYear()', () => {
+        assertEq(Date.nan().getDayOfYear(), NaN)
         assertEq(Date.of(2026, 1, 1).getDayOfYear(), 1)
         assertEq(Date.of(2026, 12, 31).getDayOfYear(), 365)
     })
 
     test('Date:isLeapYear()', () => {
+        assertEq(Date.nan().isLeapYear(), false)
         assertEq(Date.of(1900, 1, 1).isLeapYear(), false)
         assertEq(Date.of(2000, 1, 1).isLeapYear(), true)
         assertEq(Date.of(2023, 1, 1).isLeapYear(), false)
@@ -225,6 +233,7 @@
     })
 
     test('Date::sub()', () => {
+        assertEq(Date.nan().sub({ years: 5 }), Date.nan())
         assertEq(Date.of(2025, 1, 1).sub({ years: 5 }), Date.of(2020, 1, 1))
         assertEq(Date.of(2025, 1, 1).sub({ months: 5 }), Date.of(2024, 8, 1))
         assertEq(Date.of(2025, 1, 1).sub({ days: 1 }), Date.of(2024, 12, 31))
@@ -243,15 +252,28 @@
     })
 
     test('Date::unpack()', () => {
-        const date = new Date()
-        const { year, month, day, hour, minute, second, millisecond } = date.unpack()
-        assertEq(year, date.getFullYear())
-        assertEq(month, date.getMonth() + 1)
-        assertEq(day, date.getDate())
-        assertEq(hour, date.getHours())
-        assertEq(minute, date.getMinutes())
-        assertEq(second, date.getSeconds())
-        assertEq(millisecond, date.getMilliseconds())
+        {
+            const date = new Date()
+            const { year, month, day, hour, minute, second, millisecond } = date.unpack()
+            assertEq(year, date.getFullYear())
+            assertEq(month, date.getMonth() + 1)
+            assertEq(day, date.getDate())
+            assertEq(hour, date.getHours())
+            assertEq(minute, date.getMinutes())
+            assertEq(second, date.getSeconds())
+            assertEq(millisecond, date.getMilliseconds())
+        }
+        {
+            const date = Date.nan()
+            const { year, month, day, hour, minute, second, millisecond } = date.unpack()
+            assertEq(year, NaN)
+            assertEq(month, NaN)
+            assertEq(day, NaN)
+            assertEq(hour, NaN)
+            assertEq(minute, NaN)
+            assertEq(second, NaN)
+            assertEq(millisecond, NaN)
+        }
     })
 
     test('Date::xor()', () => {
