@@ -3,7 +3,7 @@
  * @copyright 2026 PlasticHeart
  */
 
-!(() => {
+window.addEventListener('DateExtensionsLoaded', () => {
     /**
      * @param {T} a
      * @param {T} b
@@ -293,4 +293,4 @@
         assertEq(new Date(2026, 0, 1), Date.of(2026, 1, 1))
         assertEq(new Date(2026, 0, 1, 12, 34, 56, 123), Date.of(2026, 1, 1, 12, 34, 56, 123))
     })
-})()
+})
