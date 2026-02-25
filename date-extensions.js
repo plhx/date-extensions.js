@@ -171,7 +171,7 @@
     }
 
     /**
-     * @param {[Date]} dates
+     * @param {Date[]} dates
      * @returns {Date}
      */
     Date.prototype.max = function (...dates) {
@@ -182,7 +182,7 @@
     }
 
     /**
-     * @param {[Date]} dates
+     * @param {Date[]} dates
      * @returns {Date}
      */
     Date.prototype.min = function (...dates) {
