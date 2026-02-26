@@ -3,7 +3,7 @@
  * @copyright 2026 PlasticHeart
  */
 
-window.addEventListener('DateExtensionsLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     /**
      * @param {T} a
      * @param {T} b
