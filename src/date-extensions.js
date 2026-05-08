@@ -14,16 +14,6 @@
     }
 
     /**
-     * @param {Date} date
-     * @param {number} firstWeekDay
-     * @returns {number}
-     */
-    function weekNumber(date, firstWeekDay) {
-        const firstDay = new Date(date.getFullYear(), 0, 1)
-        return (date.getDayOfYear() + firstDay.getDay() - firstWeekDay - 1) / 7 | 0
-    }
-
-    /**
      * @type {Object<string, function(Date): string>}
      */
     const DIRECTIVE = {
@@ -31,8 +21,23 @@
         I: x => pad0(x.getHours() % 12 || 12, 2),
         M: x => pad0(x.getMinutes(), 2),
         S: x => pad0(x.getSeconds(), 2),
-        U: x => pad0(weekNumber(x, 0), 2),
-        W: x => pad0(weekNumber(x, 1), 2),
+        U: x => {
+            const d = x.getDayOfYear()
+            if (Number.isNaN(d)) {
+                return 'NaN'
+            }
+            const firstDay = new Date(x.getFullYear(), 0, 1)
+            const firstSundayOffset = 1 + (7 - firstDay.getDay()) % 7
+            return pad0(Math.max(0, (d - firstSundayOffset) / 7 + 1 | 0), 2)
+        },
+        W: x => {
+            const d = x.getDayOfYear()
+            if (Number.isNaN(d)) {
+                return 'NaN'
+            }
+            const firstDay = new Date(x.getFullYear(), 0, 1)
+            return pad0((d + 7 - (firstDay.getDay() + 6) % 7) / 7 | 0, 2)
+        },
         Y: x => pad0(x.getFullYear(), 4),
         d: x => pad0(x.getDate(), 2),
         f: x => pad0(x.getMilliseconds(), 3),
@@ -86,7 +91,7 @@
      * @returns {Date}
      */
     Date.prototype.and = function (date) {
-        return this.isNaN() ? this : date
+        return this.isNaN() || date.isNaN() ? Date.nan() : date
     }
 
     /**
@@ -137,7 +142,7 @@
      * @returns {string}
      */
     Date.prototype.format = function (format) {
-        return format.replace(/%(.)/g, (_, x) => DIRECTIVE[x]?.(this) ?? x)
+        return format.replace(/%(.)/g, (match, x) => DIRECTIVE[x]?.(this) ?? match)
     }
 
     /**
