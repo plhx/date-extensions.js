@@ -7,6 +7,7 @@
     /**
      * @param {number} value
      * @param {number} length
+     * @returns {string}
      */
     function pad0(value, length) {
         return (value + '').padStart(length, '0')
@@ -56,15 +57,15 @@
     }
 
     /**
-     * @param {Object} options
-     * @param {number?} options.years
-     * @param {number?} options.months
-     * @param {number?} options.days
-     * @param {number?} options.hours
-     * @param {number?} options.minutes
-     * @param {number?} options.seconds
-     * @param {number?} options.milliseconds
-     * @param {number?} options.timestamp
+     * @param {Object} [options]
+     * @param {number} [options.years]
+     * @param {number} [options.months]
+     * @param {number} [options.days]
+     * @param {number} [options.hours]
+     * @param {number} [options.minutes]
+     * @param {number} [options.seconds]
+     * @param {number} [options.milliseconds]
+     * @param {number} [options.timestamp]
      * @returns {Date}
      */
     Date.prototype.add = function ({ years, months, days, hours, minutes, seconds, milliseconds, timestamp } = {}) {
@@ -106,7 +107,7 @@
 
     /**
      * @param {any} other
-     * @returns {number?}
+     * @returns {number}
      */
     Date.prototype.compare = function (other) {
         if (other instanceof Date) {
@@ -162,16 +163,16 @@
     }
 
     /**
-     * @type T
+     * @template T
      * @param {function(Date): T} ifValid
-     * @returns {Date}
+     * @returns {Date | T}
      */
     Date.prototype.map = function (ifValid) {
         return this.isNaN() ? this : ifValid(this)
     }
 
     /**
-     * @param {Date[]} dates
+     * @param {...Date} dates
      * @returns {Date}
      */
     Date.prototype.max = function (...dates) {
@@ -182,7 +183,7 @@
     }
 
     /**
-     * @param {Date[]} dates
+     * @param {...Date} dates
      * @returns {Date}
      */
     Date.prototype.min = function (...dates) {
@@ -201,15 +202,15 @@
     }
 
     /**
-     * @param {Object} options
-     * @param {number?} options.years
-     * @param {number?} options.months
-     * @param {number?} options.days
-     * @param {number?} options.hours
-     * @param {number?} options.minutes
-     * @param {number?} options.seconds
-     * @param {number?} options.milliseconds
-     * @param {number?} options.timestamp
+     * @param {Object} [options]
+     * @param {number} [options.years]
+     * @param {number} [options.months]
+     * @param {number} [options.days]
+     * @param {number} [options.hours]
+     * @param {number} [options.minutes]
+     * @param {number} [options.seconds]
+     * @param {number} [options.milliseconds]
+     * @param {number} [options.timestamp]
      * @returns {Date}
      */
     Date.prototype.sub = function ({ years, months, days, hours, minutes, seconds, milliseconds, timestamp } = {}) {
@@ -226,14 +227,14 @@
     }
 
     /**
-     * @param {Object} options
-     * @param {number?} options.year
-     * @param {number?} options.month
-     * @param {number?} options.day
-     * @param {number?} options.hour
-     * @param {number?} options.minute
-     * @param {number?} options.second
-     * @param {number?} options.millisecond
+     * @param {Object} [options]
+     * @param {number} [options.year]
+     * @param {number} [options.month]
+     * @param {number} [options.day]
+     * @param {number} [options.hour]
+     * @param {number} [options.minute]
+     * @param {number} [options.second]
+     * @param {number} [options.millisecond]
      * @returns {Date}
      */
     Date.prototype.replace = function ({ year, month, day, hour, minute, second, millisecond } = {}) {
@@ -296,12 +297,12 @@
 
     /**
      * @param {number | string | Date | null} year
-     * @param {number?} month
-     * @param {number?} day
-     * @param {number?} hour
-     * @param {number?} minute
-     * @param {number?} second
-     * @param {number?} millisecond
+     * @param {number} [month]
+     * @param {number} [day]
+     * @param {number} [hour]
+     * @param {number} [minute]
+     * @param {number} [second]
+     * @param {number} [millisecond]
      * @returns {Date}
      */
     Date.of = function (year, month, day, hour, minute, second, millisecond) {
