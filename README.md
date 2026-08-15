@@ -15,6 +15,11 @@
 #### `date.absDiff(other: Date): number`
 `other` との差の絶対値をミリ秒で返します。
 
+```js
+Date.of(2025, 1, 5).absDiff(Date.of(2025, 1, 3)) // => 172800000
+Date.of(2025, 1, 3).absDiff(Date.of(2025, 1, 5)) // => 172800000
+```
+
 #### `date.add(options?): Date`
 指定した量を加算した新しい `Date` を返します。元のオブジェクトは変更しません。
 
@@ -29,23 +34,63 @@
 | `milliseconds` | `number` | ミリ秒 |
 | `timestamp` | `number` | タイムスタンプ（ミリ秒） |
 
+```js
+Date.of(2025, 1, 1).add({ years: 5 })  // => 2030年1月1日
+Date.of(2025, 1, 1).add({ days: 40 })  // => 2025年2月10日
+Date.of(2025, 1, 1).add({ hours: 10 }) // => 2025年1月1日 10:00:00
+```
+
 #### `date.and(date: Date): Date`
 `this` と `date` の両方が有効な場合は `date` を返します。どちらかが無効（NaN）の場合は `Date.nan()` を返します。
+
+```js
+Date.of(2026, 1, 1).and(Date.of(2027, 1, 1))    // => 2027年1月1日
+Date.nan().and(Date.of(2027, 1, 1)).isNaN()     // => true
+```
 
 #### `date.clamp(low: Date, high: Date): Date`
 `this` を `[low, high]` の範囲に収めた新しい `Date` を返します。
 
+```js
+Date.of(2026, 1, 1).clamp(Date.of(2027, 1, 1), Date.of(2029, 1, 1)) // => 2027年1月1日
+Date.of(2028, 1, 1).clamp(Date.of(2027, 1, 1), Date.of(2029, 1, 1)) // => 2028年1月1日
+Date.of(2030, 1, 1).clamp(Date.of(2027, 1, 1), Date.of(2029, 1, 1)) // => 2029年1月1日
+```
+
 #### `date.clone(): Date`
 `this` のコピーを返します。
+
+```js
+const date = Date.of(2026, 1, 1)
+const cloned = date.clone()
+cloned.equals(date) // => true
+cloned === date      // => false
+```
 
 #### `date.compare(other: any): number`
 `other` が `Date` の場合、`this - other` の差（ミリ秒）を返します。そうでない場合は `NaN` を返します。
 
+```js
+Date.of(2024, 1, 1).compare(Date.of(2025, 1, 1)) // => -31622400000
+Date.of(2025, 1, 1).compare(Date.of(2025, 1, 1)) // => 0
+Date.of(2026, 1, 1).compare(Date.of(2025, 1, 1)) // => 31536000000
+```
+
 #### `date.diff(other: Date): number`
 `other` との差をミリ秒で返します。`other` が `Date` でない場合は `NaN` を返します。
 
+```js
+Date.of(2025, 1, 5).diff(Date.of(2025, 1, 3)) // => 172800000
+Date.of(2025, 1, 1).diff(Date.of(2025, 2, 1)) // => -2678400000
+```
+
 #### `date.equals(other: any): boolean`
 `other` が同じ時刻を表す `Date` である場合に `true` を返します。
+
+```js
+Date.of(2026, 1, 1).equals(Date.of(2026, 1, 1)) // => true
+Date.of(2026, 1, 1).equals(Date.of(2027, 1, 1)) // => false
+```
 
 #### `date.format(format: string): string`
 フォーマット文字列に従って日時を文字列に変換します。`%` に続くディレクティブが置換されます。
@@ -67,26 +112,68 @@
 | `%w` | 曜日（0=日曜〜6=土曜） | `0`, `6` |
 | `%z` | UTCオフセット | `+0900`, `-0500` |
 
+```js
+Date.of(2026, 10, 25, 13, 20, 53).format('%Y-%m-%d %H:%M:%S') // => '2026-10-25 13:20:53'
+Date.of(2026, 1, 1).format('%j')                               // => '001'
+```
+
 #### `date.getDayOfYear(): number`
 年内の通算日数（1月1日 = 1）を返します。無効な `Date` の場合は `NaN` を返します。
+
+```js
+Date.of(2026, 1, 1).getDayOfYear()   // => 1
+Date.of(2026, 12, 31).getDayOfYear() // => 365
+```
 
 #### `date.isLeapYear(): boolean`
 うるう年であれば `true` を返します。
 
+```js
+Date.of(2024, 1, 1).isLeapYear() // => true
+Date.of(2025, 1, 1).isLeapYear() // => false
+```
+
 #### `date.isNaN(): boolean`
 無効な `Date`（`Invalid Date`）であれば `true` を返します。
+
+```js
+Date.of(2026, 1, 1).isNaN() // => false
+Date.nan().isNaN()          // => true
+```
 
 #### `date.map(ifValid: (date: Date) => T): Date | T`
 有効な `Date` の場合は `ifValid(this)` の結果を返します。無効な場合は `this` をそのまま返します。
 
+```js
+Date.of(2026, 1, 1).map(date => date.getFullYear())  // => 2026
+Date.nan().map(date => date.getFullYear()).isNaN()   // => true
+```
+
 #### `date.max(...dates: Date[]): Date`
 `this` と `dates` の中で最も新しい `Date` を返します。いずれかが無効の場合は `Date.nan()` を返します。
+
+```js
+Date.of(2026, 1, 1).max(Date.of(2027, 1, 1))               // => 2027年1月1日
+Date.of(2026, 1, 1).max(Date.of(2027, 1, 1), Date.of(2028, 1, 1)) // => 2028年1月1日
+Date.nan().max(Date.of(2027, 1, 1)).isNaN()                 // => true
+```
 
 #### `date.min(...dates: Date[]): Date`
 `this` と `dates` の中で最も古い `Date` を返します。いずれかが無効の場合は `Date.nan()` を返します。
 
+```js
+Date.of(2026, 1, 1).min(Date.of(2027, 1, 1))               // => 2026年1月1日
+Date.of(2026, 1, 1).min(Date.of(2027, 1, 1), Date.of(2028, 1, 1)) // => 2026年1月1日
+Date.nan().min(Date.of(2027, 1, 1)).isNaN()                 // => true
+```
+
 #### `date.or(date: Date): Date`
 `this` が有効な場合は `this` を、無効な場合は `date` を返します。
+
+```js
+Date.of(2026, 1, 1).or(Date.of(2027, 1, 1)) // => 2026年1月1日
+Date.nan().or(Date.of(2027, 1, 1))          // => 2027年1月1日
+```
 
 #### `date.replace(options?): Date`
 指定したフィールドだけを置き換えた新しい `Date` を返します。`month` は1始まりです。
@@ -101,11 +188,25 @@
 | `second` | `number` | 秒 |
 | `millisecond` | `number` | ミリ秒 |
 
+```js
+Date.of(2025, 1, 1, 3, 4, 5).replace({ year: 2026, month: 12 }) // => 2026年12月1日 03:04:05
+```
+
 #### `date.sub(options?): Date`
 指定した量を減算した新しい `Date` を返します。オプションは `add()` と同じです。
 
+```js
+Date.of(2025, 1, 1).sub({ years: 5 })  // => 2020年1月1日
+Date.of(2025, 1, 1).sub({ months: 5 }) // => 2024年8月1日
+```
+
 #### `date.timestamp(): number`
 UNIXタイムスタンプ（ミリ秒）を返します。
+
+```js
+const date = Date.of(2026, 1, 1)
+date.timestamp() // => date.getTime() と同じ値
+```
 
 #### `date.unpack(): object`
 日時の各フィールドをオブジェクトとして返します。`month` は1始まりです。
@@ -114,8 +215,19 @@ UNIXタイムスタンプ（ミリ秒）を返します。
 { year, month, day, hour, minute, second, millisecond }
 ```
 
+```js
+Date.of(2026, 3, 4, 5, 6, 7, 8).unpack()
+// => { year: 2026, month: 3, day: 4, hour: 5, minute: 6, second: 7, millisecond: 8 }
+```
+
 #### `date.xor(date: Date): Date`
 `this` と `date` のどちらか一方だけが有効な場合にその有効な方を返します。両方有効または両方無効の場合は `Date.nan()` を返します。
+
+```js
+Date.of(2026, 1, 1).xor(Date.of(2027, 1, 1)).isNaN() // => true
+Date.of(2026, 1, 1).xor(Date.nan())                   // => 2026年1月1日
+Date.nan().xor(Date.of(2027, 1, 1))                   // => 2027年1月1日
+```
 
 ---
 
